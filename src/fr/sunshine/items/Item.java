@@ -8,20 +8,19 @@ import fr.sunshine.Handler;
 import fr.sunshine.gfx.Assets;
 
 public class Item {
-
+	// TODO: add item stackable and not stackable
 	// Handler
-
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
-	public static Item rockItem = new Item(Assets.rock, "Rock", 1);
+	public static Item woodItem = new BasicItem(Assets.wood, "Wood", 0);
+	public static Item rockItem = new BasicItem(Assets.rock, "Rock", 1);
 
 	// Class
-
 	public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
 
 	protected Handler handler;
 	protected BufferedImage texture;
 	protected String name;
+	protected boolean stackable;
 	protected final int id;
 
 	protected Rectangle bounds;
@@ -34,6 +33,7 @@ public class Item {
 		this.name = name;
 		this.id = id;
 		count = 1;
+		stackable = false;
 
 		bounds = new Rectangle(x, y, ITEMWIDTH, ITEMHEIGHT);
 
@@ -137,6 +137,10 @@ public class Item {
 
 	public boolean isPickedUp() {
 		return pickedUp;
+	}
+
+	public boolean isStackable() {
+		return stackable;
 	}
 
 }

@@ -3,8 +3,6 @@ package fr.sunshine.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.sunshine.gfx.Assets;
-
 /** Class to create GRID composed of UIBox Object */
 public class UIGrid {
 
@@ -14,7 +12,8 @@ public class UIGrid {
 	// private float x, y;
 	// private int width, height;
 	//
-	// public UIGrid(float x, float y, int width, int height, ClickListener clicker)
+	// public UIGrid(float x, float y, int width, int height, ClickListener
+	// clicker)
 	// {
 	// this.x = x;
 	// this.y = y;
@@ -39,8 +38,7 @@ public class UIGrid {
 		List<UIBox> grid = new ArrayList<>();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				grid.add(
-						new UIBox(Assets.rock_item, (int) (xPos + x * BOX_SIZE), (int) (yPos + y * BOX_SIZE), clicker));
+				grid.add(new UIBox((int) (xPos + x * BOX_SIZE), (int) (yPos + y * BOX_SIZE), clicker));
 			}
 		}
 		return grid;
