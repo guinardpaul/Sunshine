@@ -39,6 +39,7 @@ public abstract class UIObject {
 		}
 	}
 
+	// GETTERS AND SETTERS
 	public float getX() {
 		return x;
 	}

@@ -49,6 +49,7 @@ public class UIManager {
 		objects.remove(o);
 	}
 
+	// GETTERS AND SETTERS
 	public Handler getHandler() {
 		return handler;
 	}
