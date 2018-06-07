@@ -1,18 +1,19 @@
 package fr.sunshine;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import fr.sunshine.display.Display;
 import fr.sunshine.gfx.Assets;
 import fr.sunshine.gfx.GameCamera;
+import fr.sunshine.gfx.Text;
 import fr.sunshine.input.KeyManager;
 import fr.sunshine.input.MouseManager;
-import fr.sunshine.states.GameState;
-import fr.sunshine.states.InstructionState;
-import fr.sunshine.states.InventoryState;
-import fr.sunshine.states.MenuState;
+import fr.sunshine.screen.Menu;
+import fr.sunshine.screen.TitleMenu;
 import fr.sunshine.states.State;
+import fr.sunshine.world.World;
 
 public class Game implements Runnable {
 
@@ -27,6 +28,8 @@ public class Game implements Runnable {
 	private BufferStrategy bs;
 	private Graphics g;
 
+	public Menu menu;
+	private World world;
 	// States
 	public State gameState;
 	public State menuState;
@@ -42,6 +45,12 @@ public class Game implements Runnable {
 
 	// Handler
 	private Handler handler;
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+		if (menu != null)
+			menu.init(this, keyManager);
+	}
 
 	public Game(String title, int width, int height) {
 		this.title = title;
@@ -63,17 +72,31 @@ public class Game implements Runnable {
 		handler = new Handler(this);
 		gameCamera = new GameCamera(handler, 0, 0);
 
-		gameState = new GameState(handler);
-		menuState = new MenuState(handler);
-		instructionState = new InstructionState(handler);
-		inventoryState = new InventoryState(handler);
-		State.setState(menuState);
+		// gameState = new GameState(handler);
+		// menuState = new MenuState(handler);
+		// instructionState = new InstructionState(handler);
+		// inventoryState = new InventoryState(handler);
+		// State.setState(menuState);
+		world = new World(handler, "res/worlds/world1.txt");
+		handler.setWorld(world);
+
+		setMenu(new TitleMenu());
 	}
 
 	private void tick() {
-		keyManager.tick();
-		if (State.getState() != null) {
-			State.getState().tick();
+		if (!display.getFrame().hasFocus()) {
+			keyManager.releaseAll();
+		} else {
+			keyManager.tick();
+			// if (State.getState() != null) {
+			// State.getState().tick();
+			// }
+			// world.tick();
+			if (menu != null) {
+				menu.tick();
+			} else {
+				world.tick();
+			}
 		}
 	}
 
@@ -81,6 +104,7 @@ public class Game implements Runnable {
 		bs = display.getCanvas().getBufferStrategy();
 		if (bs == null) {
 			display.getCanvas().createBufferStrategy(3);
+			display.getCanvas().requestFocus();
 			return;
 		}
 
@@ -89,12 +113,31 @@ public class Game implements Runnable {
 		g.clearRect(0, 0, width, height);
 		// Draw here
 		// g.drawImage(Assets.water, x, 10, null);
-		if (State.getState() != null) {
-			State.getState().render(g);
+		// if (State.getState() != null) {
+		// State.getState().render(g);
+		// }
+
+		world.render(g);
+		renderGui(g);
+
+		if (!display.getFrame().hasFocus()) {
+			renderFocusNagger();
 		}
+
 		// End drawing
 		bs.show();
 		g.dispose();
+	}
+
+	private void renderGui(Graphics g) {
+		if (menu != null) {
+			menu.render(g);
+		}
+	}
+
+	private void renderFocusNagger() {
+		String msg = "Click to focus !";
+		Text.drawString(g, msg, (getWidth() - msg.length()) / 2, getHeight() / 2, true, Color.RED, Assets.font28);
 	}
 
 	@Override
