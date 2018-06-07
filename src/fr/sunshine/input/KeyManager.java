@@ -2,67 +2,115 @@ package fr.sunshine.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KeyManager implements KeyListener {
+	public class Key {
+		public int presses, absorbs;
+		public boolean down, clicked;
 
-	private boolean[] keys, justPressed, cantPress;
-	public boolean up, down, left, right;
-	public boolean aUp, aDown, aLeft, aRight;
+		public Key() {
+			keys.add(this);
+		}
 
-	public KeyManager() {
-		keys = new boolean[256];
-		justPressed = new boolean[keys.length];
-		cantPress = new boolean[keys.length];
+		public void toggle(boolean pressed) {
+			if (pressed != down) {
+				down = pressed;
+			}
+			if (pressed) {
+				presses++;
+			}
+		}
+
+		public void tick() {
+			if (absorbs < presses) {
+				absorbs++;
+				clicked = true;
+			} else {
+				clicked = false;
+			}
+		}
+	}
+
+	public List<Key> keys = new ArrayList<Key>();
+
+	public Key up = new Key();
+	public Key down = new Key();
+	public Key left = new Key();
+	public Key right = new Key();
+	public Key attack = new Key();
+	public Key menu = new Key();
+
+	public void releaseAll() {
+		for (int i = 0; i < keys.size(); i++) {
+			keys.get(i).down = false;
+		}
 	}
 
 	public void tick() {
-		for (int i = 0; i < keys.length; i++) {
-			if (cantPress[i] && !keys[i]) {
-				cantPress[i] = false;
-			} else if (justPressed[i]) {
-				cantPress[i] = true;
-				justPressed[i] = false;
-			}
-			if (!cantPress[i] && keys[i]) {
-				justPressed[i] = true;
-			}
+		for (int i = 0; i < keys.size(); i++) {
+			keys.get(i).tick();
 		}
-
-		up = keys[KeyEvent.VK_Z];
-		down = keys[KeyEvent.VK_S];
-		left = keys[KeyEvent.VK_Q];
-		right = keys[KeyEvent.VK_D];
-
-		aUp = keys[KeyEvent.VK_UP];
-		aDown = keys[KeyEvent.VK_DOWN];
-		aLeft = keys[KeyEvent.VK_LEFT];
-		aRight = keys[KeyEvent.VK_RIGHT];
 	}
 
-	public boolean keyJustPressed(int keyCode) {
-		if (keyCode < 0 || keyCode >= keys.length)
-			return false;
-		return justPressed[keyCode];
+	public KeyManager() {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() < 0 || e.getKeyCode() >= keys.length) {
-			return;
-		}
-		keys[e.getKeyCode()] = true;
+	public void keyPressed(KeyEvent ke) {
+		toggle(ke, true);
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() < 0 || e.getKeyCode() >= keys.length) {
-			return;
-		}
-		keys[e.getKeyCode()] = false;
+	public void keyReleased(KeyEvent ke) {
+		toggle(ke, false);
+	}
+
+	private void toggle(KeyEvent ke, boolean pressed) {
+		if (ke.getKeyCode() == KeyEvent.VK_Z)
+			up.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_S)
+			down.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_Q)
+			left.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_D)
+			right.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_UP)
+			up.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_DOWN)
+			down.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_LEFT)
+			left.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
+			right.toggle(pressed);
+
+		if (ke.getKeyCode() == KeyEvent.VK_TAB)
+			menu.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_ALT)
+			menu.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_ALT_GRAPH)
+			menu.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_E)
+			menu.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_SPACE)
+			attack.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_CONTROL)
+			attack.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_NUMPAD0)
+			attack.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_INSERT)
+			attack.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_ENTER)
+			menu.toggle(pressed);
+
+		if (ke.getKeyCode() == KeyEvent.VK_X)
+			menu.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_C)
+			attack.toggle(pressed);
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent ke) {
 	}
-
 }

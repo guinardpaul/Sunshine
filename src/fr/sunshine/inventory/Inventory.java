@@ -2,7 +2,6 @@ package fr.sunshine.inventory;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +31,14 @@ public class Inventory {
 	}
 
 	public void tick() {
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_E))
+		if (handler.getKeyManager().menu.clicked)
 			active = !active;
 		if (!active)
 			return;
 
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Z))
+		if (handler.getKeyManager().up.clicked)
 			selectedItem--;
-		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_S))
+		if (handler.getKeyManager().down.clicked)
 			selectedItem++;
 
 		if (selectedItem < 0)

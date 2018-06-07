@@ -77,8 +77,7 @@ public class Item {
 		bounds.y = y;
 	}
 
-	// Getters and Setters
-
+	// GETTERS AND SETTERS
 	public Handler getHandler() {
 		return handler;
 	}

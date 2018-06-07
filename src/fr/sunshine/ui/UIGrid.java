@@ -6,6 +6,17 @@ import java.util.List;
 /** Class to create GRID composed of UIBox Object */
 public class UIGrid {
 
+	public static List<UIBox> createGrid(float xPos, float yPos, int width, int height, final int BOX_SIZE,
+			ClickListener clicker) {
+		List<UIBox> grid = new ArrayList<>();
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				grid.add(new UIBox((int) (xPos + x * BOX_SIZE), (int) (yPos + y * BOX_SIZE), clicker));
+			}
+		}
+		return grid;
+	}
+
 	// private static final int BOX_SIZE = 32;
 	// private ClickListener clicker;
 	// private List<UIBox> boxes;
@@ -32,17 +43,6 @@ public class UIGrid {
 	// }
 	// }
 	// }
-
-	public static List<UIBox> createGrid(float xPos, float yPos, int width, int height, final int BOX_SIZE,
-			ClickListener clicker) {
-		List<UIBox> grid = new ArrayList<>();
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				grid.add(new UIBox((int) (xPos + x * BOX_SIZE), (int) (yPos + y * BOX_SIZE), clicker));
-			}
-		}
-		return grid;
-	}
 
 	// public void tick() {
 	// // TODO Auto-generated method stub

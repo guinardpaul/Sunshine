@@ -58,7 +58,7 @@ public class UIBox extends UIObject {
 	public void onClick() {
 		System.out.println("UIBox clicked : x=" + x + ", y=" + y);
 		selectedItem = this.getItem();
-		// clicker.onClick();
+		clicker.onClick();
 	}
 
 	// public void addItem(Item i) {

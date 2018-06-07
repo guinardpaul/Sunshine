@@ -25,10 +25,10 @@ public class Player extends Creature {
 		bounds.setBounds(45, 72, 40, 40);
 
 		// Animations
-		animDown = new Animation(500, Assets.player_down);
-		animUp = new Animation(500, Assets.player_up);
-		animLeft = new Animation(500, Assets.player_left);
-		animRight = new Animation(500, Assets.player_right);
+		animDown = new Animation(200, Assets.player_down);
+		animUp = new Animation(200, Assets.player_up);
+		animLeft = new Animation(200, Assets.player_left);
+		animRight = new Animation(200, Assets.player_right);
 
 		inventory = new Inventory(handler);
 
@@ -71,21 +71,21 @@ public class Player extends Creature {
 		ar.width = arSize;
 		ar.height = arSize;
 
-		if (handler.getKeyManager().aUp) {
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y - arSize;
-		} else if (handler.getKeyManager().aDown) {
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y + cb.height;
-		} else if (handler.getKeyManager().aLeft) {
-			ar.x = cb.x - arSize;
-			ar.y = cb.y + cb.height / 2 - arSize / 2;
-		} else if (handler.getKeyManager().aRight) {
-			ar.x = cb.x + cb.width;
-			ar.y = cb.y + cb.height / 2 - arSize / 2;
-		} else {
-			return;
-		}
+		// if (handler.getKeyManager().aUp) {
+		// ar.x = cb.x + cb.width / 2 - arSize / 2;
+		// ar.y = cb.y - arSize;
+		// } else if (handler.getKeyManager().aDown) {
+		// ar.x = cb.x + cb.width / 2 - arSize / 2;
+		// ar.y = cb.y + cb.height;
+		// } else if (handler.getKeyManager().aLeft) {
+		// ar.x = cb.x - arSize;
+		// ar.y = cb.y + cb.height / 2 - arSize / 2;
+		// } else if (handler.getKeyManager().aRight) {
+		// ar.x = cb.x + cb.width;
+		// ar.y = cb.y + cb.height / 2 - arSize / 2;
+		// } else {
+		// return;
+		// }
 
 		attackTimer = 0;
 
@@ -108,16 +108,16 @@ public class Player extends Creature {
 			return;
 		}
 
-		if (handler.getKeyManager().up) {
+		if (handler.getKeyManager().up.down) {
 			yMove = -speed;
 		}
-		if (handler.getKeyManager().down) {
+		if (handler.getKeyManager().down.down) {
 			yMove = speed;
 		}
-		if (handler.getKeyManager().left) {
+		if (handler.getKeyManager().left.down) {
 			xMove = -speed;
 		}
-		if (handler.getKeyManager().right) {
+		if (handler.getKeyManager().right.down) {
 			xMove = speed;
 		}
 	}

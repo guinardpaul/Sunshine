@@ -97,6 +97,7 @@ public class World {
 		}
 	}
 
+	// GETTERS AND SETTERS
 	public int getWidth() {
 		return width;
 	}

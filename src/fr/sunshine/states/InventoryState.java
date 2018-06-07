@@ -28,7 +28,7 @@ public class InventoryState extends State {
 		boxes = UIGrid.createGrid(100, 20, 10, 6, 32, new ClickListener() {
 			@Override
 			public void onClick() {
-				// Nothing ToDo
+				System.out.println(handler.getMouseManager().getMouseX() + " " + handler.getMouseManager().getMouseY());
 			}
 		});
 

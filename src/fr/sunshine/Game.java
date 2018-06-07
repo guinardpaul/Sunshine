@@ -9,6 +9,7 @@ import fr.sunshine.gfx.GameCamera;
 import fr.sunshine.input.KeyManager;
 import fr.sunshine.input.MouseManager;
 import fr.sunshine.states.GameState;
+import fr.sunshine.states.InstructionState;
 import fr.sunshine.states.InventoryState;
 import fr.sunshine.states.MenuState;
 import fr.sunshine.states.State;
@@ -29,6 +30,7 @@ public class Game implements Runnable {
 	// States
 	public State gameState;
 	public State menuState;
+	public State instructionState;
 	public State inventoryState;
 
 	// Input
@@ -63,8 +65,9 @@ public class Game implements Runnable {
 
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
+		instructionState = new InstructionState(handler);
 		inventoryState = new InventoryState(handler);
-		State.setState(inventoryState);
+		State.setState(menuState);
 	}
 
 	private void tick() {
